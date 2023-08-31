@@ -29,7 +29,7 @@ jobs:
 
       - name: Sync select files
         run: |
-            rsync -avz --delete --no-perms --no-owner --no-group --exclude=.github --exclude=.gitlab-ci.yml pr/ main
+            rsync -avz --delete --no-perms --no-owner --no-group --exclude=.git --exclude=.github --exclude=.gitlab-ci.yml pr/ main
 
       - name: Push branch
         run: |
