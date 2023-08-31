@@ -15,16 +15,14 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: debug
-        run: |
-          echo $GITHUB_HEAD_REF
-          echo GITHUB_HEAD_REF
-          echo "$GITHUB_HEAD_REF"
-          echo ${{ github.event.labels[0] }}
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
           
       - name: Create branch and force push
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git checkout -b internal/qa1-5-feature/testing
+          git checkout -b internal/qa1-${{ github.event.id }}-${GITHUB_HEAD_REF}
           git push -f --set-upstream origin internal/qa1-5-feature/testing
