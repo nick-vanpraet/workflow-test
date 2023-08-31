@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  pull_request:
+    types: [labeled, synchronize, unlocked, opened]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          
+      - name: Create branch and force push
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout -b internal/qa1-5-feature/testing
+          git push -f --set-upstream origin internal/qa1-5-feature/testing
