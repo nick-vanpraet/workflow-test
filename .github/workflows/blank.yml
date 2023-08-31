@@ -5,33 +5,16 @@ on:
     types: [labeled, synchronize, unlocked, opened]
 
 jobs:
-  build:
+  setup_qa1_branch:
+    if: contains(github.event.pull_request.labels.*.name, 'qa-1')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Dump stuff
-        run: |
-          echo ${{ github.event.pull_request.labels[0].name }}
-
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-          
+          ref: ${{ github.event.pull_request.head.sha }}          
       - name: Create branch and force push
-        env:
-          PR_LABELS: ${{ toJson(github.event.pull_request.labels) }}
-          LABEL_NAME: qa-1
         run: |
-          if echo "$PR_LABELS" | jq -r '.[].name' | grep -q "$LABEL_NAME"; then
-            echo "PR labeled with 'qa-1'. Running QA checks..."
             git config user.name github-actions
             git config user.email github-actions@github.com
-            git checkout -b internal/qa1-${{ github.event.number }}-$GITHUB_HEAD_REF
-            git push -f --set-upstream origin internal/qa1-${{ github.event.number }}-$GITHUB_HEAD_REF
-          else
-            echo "PR not labeled with 'qa-1'. No action needed."
-          fi
+            git checkout -b internal/qa-1/PR-${{ github.event.number }}/$GITHUB_HEAD_REF
+            git push -f --set-upstream origin internal/qa-1/PR-${{ github.event.number }}/$GITHUB_HEAD_REF
