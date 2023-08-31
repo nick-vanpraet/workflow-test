@@ -25,7 +25,15 @@ jobs:
           
       - name: Create branch and force push
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git checkout -b internal/qa1-${{ github.event.number }}-${GITHUB_HEAD_REF}
-          git push -f --set-upstream origin internal/qa1-${{ github.event.number }}-${GITHUB_HEAD_REF}
+          pr_labels=${{ toJson(github.event.pull_request.labels) }}
+          label_name="qa-1"
+
+          if echo "$pr_labels" | jq -r '.[].name' | grep -q "$label_name"; then
+            echo "PR labeled with 'qa-1'. Running QA checks..."
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git checkout -b internal/qa1-${{ github.event.number }}-${GITHUB_HEAD_REF}
+            git push -f --set-upstream origin internal/qa1-${{ github.event.number }}-${GITHUB_HEAD_REF}
+          else
+            echo "PR not labeled with 'qa-1'. No action needed."
+          fi
