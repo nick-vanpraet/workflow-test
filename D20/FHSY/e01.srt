@@ -11,7 +11,7 @@ of finance is interest.
 3
 00:00:10,009 --> 00:00:13,655
 When I go to a bank or some
-other lending institution
+other lending institutions
 
 4
 00:00:13,655 --> 00:00:17,720
@@ -35,7 +35,7 @@ certificate of deposit, the bank just
 
 8
 00:00:31,300 --> 00:00:35,800
-doesn't put my money in a little box
+does not put my money in a little box
 and leave it there until later. They take
 
 9
