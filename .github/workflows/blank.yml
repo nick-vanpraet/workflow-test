@@ -20,7 +20,7 @@ jobs:
           echo $GITHUB_HEAD_REF
           echo GITHUB_HEAD_REF
           echo "$GITHUB_HEAD_REF"
-          echo ${{ github.event.labels.0 }}
+          echo ${{ github.event.labels[0] }}
           
       - name: Create branch and force push
         run: |
