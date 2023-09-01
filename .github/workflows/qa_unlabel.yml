@@ -1,7 +1,8 @@
 name: Teardown QA env on unlabel for PR
 on:
   pull_request_target:
-    types: [ unlabeled ]
+    types:
+      - unlabeled
 jobs:
   delete_qa1_branch:
     if: !contains(github.event.pull_request.labels.*.name, 'qa-1')
