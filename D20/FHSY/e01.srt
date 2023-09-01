@@ -76,7 +76,7 @@ being paid or the rate of interest being
 16
 00:01:11,480 --> 00:01:17,898
 charged. And it's also dependent upon
-how much time is involved. If I have
+how much time is needed. If I have
 
 17
 00:01:17,898 --> 00:01:22,730
