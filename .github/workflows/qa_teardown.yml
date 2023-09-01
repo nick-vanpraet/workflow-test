@@ -1,0 +1,18 @@
+name: Setup QA environment
+on:
+  pull_request_target:
+    types: [unlabeled, locked, closed]
+jobs:
+  teardown_qa_branches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Delete all QA branches for this PR
+        run: |
+          git fetch --prune
+          for branch in $(git branch -r | grep -E "origin\/internal\/qa-[1-4]/PR-${{ github.event.number }}\/.*" | sed 's/origin\///'); do \
+          echo "Deleting branch $branch" \
+          git push origin --delete "$branch" \
+          done
