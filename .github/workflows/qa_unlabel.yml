@@ -5,7 +5,7 @@ on:
       - unlabeled
 jobs:
   delete_qa1_branch:
-    if: !contains(github.event.pull_request.labels.*.name, 'qa-1')
+    if: "!contains(github.event.pull_request.labels.*.name, 'qa-1')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
