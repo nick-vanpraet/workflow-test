@@ -1,4 +1,4 @@
-name: Setup QA environment
+name: Setup QA environment for PR
 on:
   pull_request_target:
     types: [ labeled, synchronize, unlocked, opened, reopened ]
@@ -20,23 +20,8 @@ jobs:
           path: pr
 
       - name: Create QA branch
-        run: |
-          cd main
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git checkout -b internal/qa-1/PR-${{ github.event.number }}/$GITHUB_HEAD_REF
-          cd ..
-
-      - name: Sync select files to prevent CI tampering
-        run: |
-          rsync -avz --delete --no-perms --no-owner --no-group --exclude=.git --exclude=.github --exclude=.gitlab-ci.yml pr/ main
-
-      - name: Push QA branch
-        run: |
-          cd main
-          git add .
-          git commit -m "Created QA branch for PR ${{ github.event.number }}"
-          git push -f --set-upstream origin internal/qa-1/PR-${{ github.event.number }}/$GITHUB_HEAD_REF
+        run: ./main/.github/scripts/create_qa_branch_for_pr.sh 1 ${{ github.event.number }}
+        shell: bash
 
   setup_qa2_branch:
     if: contains(github.event.pull_request.labels.*.name, 'qa-2')
@@ -55,23 +40,8 @@ jobs:
           path: pr
 
       - name: Create QA branch
-        run: |
-          cd main
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git checkout -b internal/qa-2/PR-${{ github.event.number }}/$GITHUB_HEAD_REF
-          cd ..
-
-      - name: Sync select files to prevent CI tampering
-        run: |
-          rsync -avz --delete --no-perms --no-owner --no-group --exclude=.git --exclude=.github --exclude=.gitlab-ci.yml pr/ main
-
-      - name: Push QA branch
-        run: |
-          cd main
-          git add .
-          git commit -m "Created QA branch for PR ${{ github.event.number }}"
-          git push -f --set-upstream origin internal/qa-2/PR-${{ github.event.number }}/$GITHUB_HEAD_REF
+        run: ./main/.github/scripts/create_qa_branch_for_pr.sh 2 ${{ github.event.number }}
+        shell: bash
 
   setup_qa3_branch:
     if: contains(github.event.pull_request.labels.*.name, 'qa-3')
@@ -90,23 +60,8 @@ jobs:
           path: pr
 
       - name: Create QA branch
-        run: |
-          cd main
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git checkout -b internal/qa-3/PR-${{ github.event.number }}/$GITHUB_HEAD_REF
-          cd ..
-
-      - name: Sync select files to prevent CI tampering
-        run: |
-          rsync -avz --delete --no-perms --no-owner --no-group --exclude=.git --exclude=.github --exclude=.gitlab-ci.yml pr/ main
-
-      - name: Push QA branch
-        run: |
-          cd main
-          git add .
-          git commit -m "Created QA branch for PR ${{ github.event.number }}"
-          git push -f --set-upstream origin internal/qa-3/PR-${{ github.event.number }}/$GITHUB_HEAD_REF
+        run: ./main/.github/scripts/create_qa_branch_for_pr.sh 3 ${{ github.event.number }}
+        shell: bash
 
   setup_qa4_branch:
     if: contains(github.event.pull_request.labels.*.name, 'qa-4')
@@ -125,20 +80,5 @@ jobs:
           path: pr
 
       - name: Create QA branch
-        run: |
-          cd main
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git checkout -b internal/qa-4/PR-${{ github.event.number }}/$GITHUB_HEAD_REF
-          cd ..
-
-      - name: Sync select files to prevent CI tampering
-        run: |
-          rsync -avz --delete --no-perms --no-owner --no-group --exclude=.git --exclude=.github --exclude=.gitlab-ci.yml pr/ main
-
-      - name: Push QA branch
-        run: |
-          cd main
-          git add .
-          git commit -m "Created QA branch for PR ${{ github.event.number }}"
-          git push -f --set-upstream origin internal/qa-4/PR-${{ github.event.number }}/$GITHUB_HEAD_REF
+        run: ./main/.github/scripts/create_qa_branch_for_pr.sh 4 ${{ github.event.number }}
+        shell: bash
